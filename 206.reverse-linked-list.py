@@ -60,13 +60,18 @@
 #         self.next = next
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        newHead = None
-        while head:
-            headNext = head.next
-            head.next = newHead
-            newHead = head
-            head = headNext
-        return newHead
+        # 初始化前后两个指针
+        prev, curr = None, head
+        while curr:
+            # 先保存下一个指针
+            next = curr.next
+            # 翻转下一个指针
+            curr.next = prev
+            # 向下推进一格
+            prev = curr
+            curr = next
+        # 因为循环结束的时候curr已经是空指针，因此返回的是prev
+        return prev
 
 # @lc code=end
 
