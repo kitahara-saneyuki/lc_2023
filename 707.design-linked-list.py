@@ -85,9 +85,9 @@ class MyLinkedList:
     def get(self, index: int) -> int:
         cur = self
         for _ in range(index):
-            if not cur.next: break
+            if not cur: return -1
             cur = cur.next
-        return cur.val
+        return cur.val if cur else -1
 
     def addAtHead(self, val: int) -> None:
         self = MyLinkedList(val, self)
@@ -102,7 +102,7 @@ class MyLinkedList:
         dummy = MyLinkedList(0, self)
         cur = dummy
         for _ in range(index):
-            if not cur.next: break
+            if not cur: return
             cur = cur.next
         cur.next = MyLinkedList(val, cur.next)
         self = dummy.next
@@ -111,9 +111,11 @@ class MyLinkedList:
         dummy = MyLinkedList(0, self)
         cur = dummy
         for _ in range(index):
-            if not cur.next.next: return
+            if not cur or not cur.next: return
             cur = cur.next
-        cur.next = cur.next.next
+        # 考点：注意边界条件
+        if cur.next:
+            cur.next = cur.next.next
 
 
 # Your MyLinkedList object will be instantiated and called as such:
