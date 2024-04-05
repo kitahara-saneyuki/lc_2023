@@ -59,19 +59,17 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def reverseListIterative(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         # 初始化前后两个指针
-        prev, curr = None, head
-        while curr:
-            # 先保存下一个指针
-            next = curr.next
-            # 翻转下一个指针
-            curr.next = prev
-            # 向下推进一格
-            prev = curr
-            curr = next
+        dummy = ListNode(0, head)
+        prev, cur = dummy, head
+        while cur and cur.next:
+            temp = cur.next
+            cur.next = temp.next
+            temp.next = prev.next
+            prev.next = temp
         # 因为循环结束的时候curr已经是空指针，因此返回的是prev
-        return prev
+        return prev.next
 
     # 递归解法：后序遍历
     def reverseListDFS1(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -86,7 +84,7 @@ class Solution:
         return dfs(head, None)
 
     # 递归解法：后序遍历
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def reverseListDFS2(self, head: Optional[ListNode]) -> Optional[ListNode]:
         def dfs(curr):
             # 边界条件
             if not curr or not curr.next: return curr
