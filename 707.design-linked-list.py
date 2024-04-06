@@ -76,47 +76,55 @@
 #
 
 # @lc code=start
-class MyLinkedList:
 
+class Node:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
 
+class MyLinkedList:
+    def __init__(self):
+        self.head = None
+
     def get(self, index: int) -> int:
-        cur = self
+        cur = self.head
         for _ in range(index):
-            if not cur: return -1
+            # if index > length of l-list, will iterate out-of-bounds
+            if cur is None: return -1
             cur = cur.next
         return cur.val if cur else -1
 
     def addAtHead(self, val: int) -> None:
-        self = MyLinkedList(val, self)
+        self.head = Node(val, self.head)
 
     def addAtTail(self, val: int) -> None:
-        cur = self
+        dummy = Node(0, self.head)
+        cur = dummy
         while cur.next:
             cur = cur.next
-        cur.next = MyLinkedList(val)
+        cur.next = Node(val)
+        self.head = dummy.next
 
     def addAtIndex(self, index: int, val: int) -> None:
-        dummy = MyLinkedList(0, self)
+        dummy = Node(0, self.head)
         cur = dummy
         for _ in range(index):
-            if not cur: return
+            if not cur.next: return
             cur = cur.next
-        cur.next = MyLinkedList(val, cur.next)
-        self = dummy.next
+        cur.next = Node(val, cur.next)
+        self.head = dummy.next
 
     def deleteAtIndex(self, index: int) -> None:
-        dummy = MyLinkedList(0, self)
+        dummy = Node(0, self.head)
         cur = dummy
         for _ in range(index):
-            if not cur or not cur.next: return
+            if not cur.next: return
             cur = cur.next
         # 考点：注意边界条件
         if cur.next:
             cur.next = cur.next.next
-
+        # 考点：如果我们删除了第一个节点，需要改变整个链表
+        self.head = dummy.next
 
 # Your MyLinkedList object will be instantiated and called as such:
 # obj = MyLinkedList()
