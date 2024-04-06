@@ -90,7 +90,7 @@ class MyLinkedList:
         cur = self.head
         for _ in range(index):
             # if index > length of l-list, will iterate out-of-bounds
-            if cur is None: return -1
+            if not cur: return -1
             cur = cur.next
         return cur.val if cur else -1
 
