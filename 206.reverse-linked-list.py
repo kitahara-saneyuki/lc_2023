@@ -60,13 +60,42 @@
 #         self.next = next
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        newHead = None
-        while head:
-            headNext = head.next
-            head.next = newHead
-            newHead = head
-            head = headNext
-        return newHead
+        # 初始化前后两个指针
+        dummy = ListNode(0, head)
+        prev, cur = dummy, head
+        while cur and cur.next:
+            temp = cur.next
+            cur.next = temp.next
+            temp.next = prev.next
+            prev.next = temp
+        # 因为循环结束的时候curr已经是空指针，因此返回的是prev
+        return prev.next
+
+    # 递归解法：后序遍历
+    def reverseListDFS1(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # 因为是后序遍历，我们假定前面的都处理好了，后面的还没处理好
+        def dfs(curr, prev):
+            # 最后返回尾节点
+            if not curr: return prev
+            next = curr.next
+            # 每次递归只改变一个箭头
+            curr.next = prev
+            return dfs(next, curr)
+        return dfs(head, None)
+
+    # 递归解法：后序遍历
+    def reverseListDFS2(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        def dfs(curr):
+            # 边界条件
+            if not curr or not curr.next: return curr
+            # 后序遍历
+            ret = dfs(curr.next)
+            # 主逻辑
+            curr.next.next = curr
+            # 现在先置空并没有关系，因为 dfs 过程结束后会自动回推一格
+            curr.next = None
+            return ret
+        return dfs(head)
 
 # @lc code=end
 
