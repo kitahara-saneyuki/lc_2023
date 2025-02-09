@@ -2,6 +2,7 @@
 [CLS]
 [SEP]
 [MASK]
+[UNK]
 ，
 的
 、
